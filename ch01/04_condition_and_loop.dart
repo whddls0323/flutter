@@ -28,7 +28,7 @@ void main() {
     print("A 학점");
   } else if(score >= 80) {
     print("B 학점");
-  } else if(score >= 80) {
+  } else if(score >= 70) {
     print("C 학점");
   } else {
     print("F 학점");

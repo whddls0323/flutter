@@ -12,8 +12,8 @@ void main() {
   double height = 177.2;
   bool isStudent = true;
   num score = 100; //숫자형(int, double 포함하는 상위 타입)
-  var address = '부산시'; //자동 추론 타입(컴파일 시점, 최초 한번 타입이 정해지면 변경 불가)
-  dynamic etc = '기타'; //자동 동적 타입(런타임 시점, 최초 한번 타입이 정해져도 변경 가능)
+  var address = '부산시'; //자동 추론 타입(컴파일 시점, 최초 한번 타입이 정해지면 변경 불가) 타입 고정, 재할당 가능
+  dynamic etc = '기타'; //자동 동적 타입(런타임 시점, 최초 한번 타입이 정해져도 변경 가능) 타입 고정x, 재할당 가능
 
   print('이름: ${name}\n나이: ${age}\n키: ${height}\n학생여부: ${isStudent}\n주소: ${address}');
 
