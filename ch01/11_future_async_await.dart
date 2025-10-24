@@ -33,13 +33,13 @@ void main() async {
       .catchError((err){
         print('here...3: $err');
       })
-      .whenComplete((){
+      .whenComplete((){ //finally 같은 느낌
         print('here...4 비동기 작업 완료');
   });
 
   print('here...5');
 
-  //async/await 실행
+  // async / await 실행
   print('async_await...1');
 
   try {
