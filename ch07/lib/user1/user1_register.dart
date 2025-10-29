@@ -1,5 +1,9 @@
+
+import 'dart:math';
+
 import 'package:ch07/user1/user1.dart';
 import 'package:ch07/user1/user1_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class User1Register extends StatefulWidget {
@@ -8,8 +12,8 @@ class User1Register extends StatefulWidget {
 }
 
 class _User1RegisterState extends State<User1Register> {
-  final _forKey = GlobalKey<FormState>();
 
+  final _formKey = GlobalKey<FormState>();
   final _useridController = TextEditingController();
   final _nameController = TextEditingController();
   final _birthController = TextEditingController();
@@ -20,26 +24,28 @@ class _User1RegisterState extends State<User1Register> {
   String message = '';
 
   Future<void> _submitForm() async {
-    if(!_forKey.currentState!.validate()) return;
+
+    if(!_formKey.currentState!.validate()) return;
 
     User1 inputUser = User1(
-      userid: _useridController.text,
-      name: _nameController.text,
-      birth: _birthController.text,
-      age: int.tryParse(_ageController.text) ?? 0
+        userid: _useridController.text,
+        name: _nameController.text,
+        birth: _birthController.text,
+        age: int.tryParse(_ageController.text) ?? 0
     );
 
     try {
       User1 savedUser = await service.postUser(inputUser);
-      //print('savedUser: ${savedUser}등록');
-      await _showDialog('등록성공', '사용자가 성공적으로 등록되었습니다.');
+      //print('savedUser : ${savedUser} 등록');
 
-      //목록 이동
+      await _showDialog('등록 성공', '사용자가 성공적으로 등록되었습니다.');
+
+      // 목록 이동
       Navigator.pop(context);
 
-    } catch(err) {
+    }catch(err){
       setState(() {
-        message = '등록실패, 에러발생 했습니다. $err';
+        message = '등록 실패, 에러 발생 했습니다. $err}';
       });
     }
   }
@@ -56,9 +62,10 @@ class _User1RegisterState extends State<User1Register> {
             child: const Text('OK'),
           ),
         ],
-      )
+      ),
     );
   }
+
 
   Future<void> selectBirth() async {
     DateTime now = DateTime.now();
@@ -69,12 +76,19 @@ class _User1RegisterState extends State<User1Register> {
         lastDate: now
     );
 
-    if(selectedDate != null) {
+    if(selectedDate != null){
       setState(() {
+
+        //String fmtDate = DateFormat('yyyy-MM-dd').format(selectedDate);
         _birthController.text = selectedDate.toString();
+
       });
     }
+
+
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +97,7 @@ class _User1RegisterState extends State<User1Register> {
         body: Padding(
           padding: EdgeInsets.all(10),
           child: Form(
-            key: _forKey,
+              key: _formKey,
               child: Column(
                 children: [
                   TextFormField(
@@ -137,4 +151,5 @@ class _User1RegisterState extends State<User1Register> {
         )
     );
   }
+
 }
