@@ -31,7 +31,11 @@ class _User1RegisterState extends State<User1Register> {
 
     try {
       User1 savedUser = await service.postUser(inputUser);
-      print('savedUser: ${savedUser}등록');
+      //print('savedUser: ${savedUser}등록');
+      await _showDialog('등록성공', '사용자가 성공적으로 등록되었습니다.');
+
+      //목록 이동
+      Navigator.pop(context);
 
     } catch(err) {
       setState(() {
@@ -40,7 +44,20 @@ class _User1RegisterState extends State<User1Register> {
     }
   }
 
-  void showDialog(String title, String message) {
+  Future<void> _showDialog(String title, String message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      )
+    );
   }
 
   Future<void> selectBirth() async {

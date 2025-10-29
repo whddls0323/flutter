@@ -1,5 +1,7 @@
 
+import 'package:ch07/user1/user1.dart';
 import 'package:ch07/user1/user1_register.dart';
+import 'package:ch07/user1/user1_service.dart';
 import 'package:flutter/material.dart';
 
 class User1List extends StatefulWidget {
@@ -8,6 +10,18 @@ class User1List extends StatefulWidget {
 }
 
 class _User1ListState extends State<User1List> {
+  final service = User1Service();
+
+  //late: 초기화를 연기하고 선언
+  late Future<List<User1>> futureUserList;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //목록 데이터 요청하기
+    futureUserList = service.getUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +37,30 @@ class _User1ListState extends State<User1List> {
         child: const Icon(Icons.add),
       ),
       body: FutureBuilder(
-          future: null,
+          future: futureUserList,
           builder: (context, snapshot) {
 
             if(snapshot.connectionState == ConnectionState.waiting){
               return const CircularProgressIndicator();
             }else if(snapshot.hasError) {
               return Text('에러발생 : ${snapshot.error}');
-            }else if(snapshot.hasData){
-              return Text('결과 : ${snapshot.data}');
             }
 
-            final userList = snapshot.data;
+            final userList = snapshot.data!;
 
             return ListView.builder(
-                itemCount: 3,
+                itemCount: userList.length,
                 itemBuilder: (context, index) {
 
+                  final user = userList[index];
                   return Card(
                     margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     child: ListTile(
                       leading: CircleAvatar(
-                        child: Text('홍'),
+                        child: Text(user.name[0]),
                       ),
-                      title: Text('홍길동(아이디)'),
-                      subtitle: Text('26세(1990-09-01)'),
+                      title: Text('${user.name}(${user.userid})'),
+                      subtitle: Text('${user.age}세(${user.birth})'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
