@@ -17,20 +17,20 @@ class _MainTabScreenState extends State<MainTabScreen>{
 
   int _selectedIndex = 0;
 
-  void _onTabHandler(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   // 5개 탭 화면 리스트
-  static const List<Widget> _widgetList = [
-    HomeTab(),
+  late final List<Widget> _widgetList = [
+    HomeTab(onTabSwitch: _onTabHandler,),
     CategoryTab(),
     SearchTab(),
     MyTab(),
     CartTab()
   ];
+
+  void _onTabHandler(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
